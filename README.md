@@ -86,7 +86,3 @@ For this particular version it is dependent on
 Cassandra Driver Core 2.1.7.1
 
 So if you use Spring Data you are binded to the Datastax Driver Version used by Spring Data( though there must be a way to override this but the that won't be supported by Spring Data)
-
-
- ## Adding a new driver
- create a 
