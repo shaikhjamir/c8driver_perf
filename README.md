@@ -126,7 +126,7 @@ Open ReadPerfData.java and execute this in editor.
 This will generate numbers as per c8driver_perf/data/Performance_C8_Driver_DSX_SD.xlsx
 You can pretty much replace the values in the Excel to get the awesome comparison graphs.
 
-Note:
+### Note:
 For analyzing we use the median (and not mean), this avoids spikes.
 A good number of runs to come to conclusion should be 20.
 
