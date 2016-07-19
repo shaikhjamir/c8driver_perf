@@ -76,7 +76,6 @@ run() {
   echo "debug: $debug "
   echo "driver: $driver "
   echo ""
-  
 
   ls modules/sprng_data_1_4_2/target/*-c8-perf-all.jar | grep 'c8-perf-all' &> /dev/null
   if [ $? != 0 ]; then
@@ -99,9 +98,9 @@ run() {
      return -1
   fi
 
-  docker stop $docker_name 2> /dev/null
-  docker rm $docker_name 2> /dev/null
-  docker run --name $docker_name -p 9042:9042 -p 9160:9160 -d cassandra:2.1
+  docker stop -f $docker_name 2> /dev/null
+  docker rm -f $docker_name 2> /dev/null
+  docker run -d --name $docker_name -p 9042:9042 -p 9160:9160 -d cassandra:2.1
 
   cql_setup=`cat ./bin/c8_driver_perf_setup.cql`
   echo "Setting up Cassandra: $cql_setup"

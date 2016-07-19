@@ -86,3 +86,48 @@ For this particular version it is dependent on
 Cassandra Driver Core 2.1.7.1
 
 So if you use Spring Data you are binded to the Datastax Driver Version used by Spring Data( though there must be a way to override this but the that won't be supported by Spring Data)
+
+
+### Docker Cheat commands
+In case Docker does not start and start giving errors, chekc the logs:
+
+docker logs c8_perf
+If you see "Space not available" then you need to cleanup the Docker Volumes
+```bash
+### List All volumes
+docker volume ls
+
+### Remove all volumes
+Remove All Volumes:
+docker volume ls | grep local | awk -F' ' '{print $NF}' | xargs docker volume rm
+
+```
+### Remove images
+If Docker does not start even after removing volumes
+```bash
+docker images
+docker rmi [ID_OF_CASSANDRA_IMAGE]
+
+```
+### To Verify if Docker-Cassandra container is working properly
+
+```bash
+
+docker run --name c8_perf -p 9042:9042 -p 9160:9160 -d cassandra:2.1
+docker exec -it c8_perf cqlsh
+docker stop c8_perf
+docker rm c8_perf
+
+```
+
+
+# Analyzing Results:
+Open ReadPerfData.java and execute this in editor.
+This will generate numbers as per c8driver_perf/data/Performance_C8_Driver_DSX_SD.xlsx
+You can pretty much replace the values in the Excel to get the awesome comparison graphs.
+
+Note:
+For analyzing we use the median (and not mean), this avoids spikes.
+A good number of runs to come to conclusion should be 20.
+
+You can use c8_perf_loop_wrapper.sh to run this multiple times.
