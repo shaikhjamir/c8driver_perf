@@ -6,6 +6,6 @@ do
   for i in {1..20}
   do
       numberofrecords_var=$(($i*10000))
-      bin/c8_driver_perf.sh  -l true -n $numberofrecords_var run:dsx_drv_3_0_2,sprng_data_1_4_2
+      bin/c8_driver_perf.sh -n $numberofrecords_var run:dsx_drv_3_0_2,dsx_drv_2_1_9,sprng_data_1_4_2
   done
 done

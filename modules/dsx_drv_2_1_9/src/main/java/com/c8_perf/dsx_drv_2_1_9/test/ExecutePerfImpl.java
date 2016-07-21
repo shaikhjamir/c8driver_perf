@@ -14,7 +14,7 @@ public class ExecutePerfImpl extends ExecutePerf {
 
 	@Override
 	public String getDriverType() {
-		return "DSX_3_0_2";
+		return "DSX_2_1_9";
 	}
 
 	@Override
