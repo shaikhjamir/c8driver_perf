@@ -1,75 +1,64 @@
-package com.c8_perf.sprng_data_1_4_2.test;
+package com.c8_perf.dsx_drv_2_1_9.test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.c8_perf.common.ExecutePerf;
-import com.c8_perf.sprng_data_1_4_2.config.CassandraConfig;
-import com.c8_perf.sprng_data_1_4_2.model.Experiment;
-import com.c8_perf.sprng_data_1_4_2.model.ExperimentFactory;
-import com.c8_perf.sprng_data_1_4_2.repo.EventRepo;
-import com.c8_perf.sprng_data_1_4_2.repo.ExperimentRepo;
+import com.c8_perf.dsx_drv_2_1_9.config.CassandraConfig;
+import com.c8_perf.dsx_drv_2_1_9.model.Experiment;
+import com.c8_perf.dsx_drv_2_1_9.model.ExperimentFactory;
+import com.datastax.driver.mapping.Mapper;
 
-
-@Service
 public class ExecutePerfImpl extends ExecutePerf {
 
-	@Autowired
-	EventRepo repo ;
-	
-	@Autowired
-	ExperimentRepo repoEx ;
-	
 	@Override
 	public String getDriverType() {
-		return "Spring_Data_1_4_2";
+		return "DSX_3_0_2";
 	}
 
 	@Override
 	public List<UUID> inserts(int count) {
-		 
-		/*List<UUID> uuids = new ArrayList<>() ;
+		
+		/*Mapper<Event> mapper = CassandraConfig.getMapper() ; 
+		List<UUID> uuids = new ArrayList<>() ;
 		for (int i = 0 ; i < count ; i++) {
 			List<Event> events = EventFactory.getNewEvents() ;
 			for (Event eve : events) {
-				repo.save(eve);
+				mapper.save(eve);
 			}
-			uuids.add(events.get(0).getPk().getEventId()) ;
-		}
-		return uuids;
-		*/
+			uuids.add(events.get(0).getEventId()) ;
+		}*/
 		
+		Mapper<Experiment> mapper = CassandraConfig.getExperimentMapper() ;
 		List<UUID> uuids = new ArrayList<>() ;
 		for (int i = 0 ; i < count ; i++) {
 			Experiment ex = ExperimentFactory.getExperiment() ;
-			repoEx.save(ex);
+			mapper.save(ex);
 			uuids.add(ex.getId()) ;
 		}
 		return uuids;
 	}
+	
 
 	@Override
 	public boolean read(List<UUID> uuids) {
 		
-		/*for (UUID uuid : uuids) {
+		/*Mapper<Event> mapper = CassandraConfig.getMapper() ;
+		for (UUID uuid : uuids) {
 			
 			for (String eventType : EventTypes.TYPES) {
-				Event evt = repo.findEvent(uuid, eventType) ;
+				Event evt = mapper.get(uuid, eventType) ;
 				if (evt == null || evt.getEventData1().equals(uuid.toString() + "_data1") == false )
 					return false ;
 			}
-		}
-		return true;
-		*/
+		}*/
 		
+		Mapper<Experiment> mapper = CassandraConfig.getExperimentMapper() ;
 		for (UUID uuid : uuids) {
-			
-			Experiment evt = repoEx.findExperiment(uuid) ;
-			if (evt == null || evt.getApplicationName() == null || evt.getApplicationName().length() == 0 )
+		
+			Experiment expr = mapper.get(uuid) ;
+			if (expr == null || expr.getApplicationName() == null )
 				return false ;
 		}
 		return true;
@@ -78,15 +67,16 @@ public class ExecutePerfImpl extends ExecutePerf {
 	@Override
 	public boolean update(List<UUID> uuids) {
 		
-		/*for (UUID uuid : uuids) {
+		/*Mapper<Event> mapper = CassandraConfig.getMapper() ;
+		for (UUID uuid : uuids) {
 			
 			for (String eventType : EventTypes.TYPES) {
-				Event evt = repo.findEvent(uuid, eventType) ;
+				Event evt = mapper.get(uuid, eventType) ;
 				if (evt == null || evt.getEventData1().equals(uuid.toString() + "_data1") == false )
 					return false ;
 				
 				evt.setEventData20(evt.getEventData20() + "--updated");
-				repo.save(evt);
+				mapper.save(evt);
 			}
 		}*/
 		return true;
@@ -94,15 +84,14 @@ public class ExecutePerfImpl extends ExecutePerf {
 
 	@Override
 	public boolean delete(List<UUID> uuids) {
-		/*for (UUID uuid : uuids) {
+		/*Mapper<Event> mapper = CassandraConfig.getMapper() ;
+		for (UUID uuid : uuids) {
 			
 			for (String eventType : EventTypes.TYPES) {
-				EventPK evtPK = new EventPK() ;
-				evtPK.setEventId(uuid);
-				evtPK.setEventType(eventType);
-				Event eve = new Event() ;
-				eve.setPk(evtPK) ;
-				repo.delete(eve);
+				Event evt = new Event() ;
+				evt.setEventId(uuid);
+				evt.setEventType(eventType);
+				mapper.delete(evt);
 			}
 		}*/
 		return true;
@@ -115,7 +104,8 @@ public class ExecutePerfImpl extends ExecutePerf {
 
 	@Override
 	public void cleanup() {
-		CassandraConfig.close();
+		// TODO Auto-generated method stub
+		CassandraConfig.client.close();
 	}
 
 }

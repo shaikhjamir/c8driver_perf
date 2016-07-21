@@ -1,8 +1,7 @@
-package com.c8_perf.dsx_drv_3_0_2.config;
+package com.c8_perf.dsx_drv_2_1_9.config;
 
-import com.c8_perf.dsx_drv_3_0_2.config.CassandraConfig;
-import com.c8_perf.dsx_drv_3_0_2.model.Experiment;
-import com.c8_perf.dsx_drv_3_0_2.model.Event;
+import com.c8_perf.dsx_drv_2_1_9.model.Event;
+import com.c8_perf.dsx_drv_2_1_9.model.Experiment;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Host;
 import com.datastax.driver.core.Metadata;
@@ -66,4 +65,5 @@ public class CassandraConfig {
 		      exprmapper =  manager.mapper(Experiment.class);
 		      return exprmapper ;
 		   }
+	   
 }

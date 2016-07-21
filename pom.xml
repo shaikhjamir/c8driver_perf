@@ -15,6 +15,7 @@
 	<modules>
 		<module>modules/c8driver_perf_test_common</module>
 		<module>modules/dsx_drv_3_0_2</module>
+		<module>modules/dsx_drv_2_1_9</module>
 		<module>modules/sprng_data_1_4_2</module>
 	</modules>
 
