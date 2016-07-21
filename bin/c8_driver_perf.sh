@@ -97,30 +97,30 @@ run() {
 
   if [ "$local" == false ] ; then
   	  docker --version | grep 'version' &> /dev/null
-	  
+
 	  if [ $? != 0 ]; then
 	     echo "Error: Docker not installed"
 	     echo "Please install Docker"
 	     return -1
 	  fi
-	  
+
 	  docker stop -f $docker_name 2> /dev/null
 	  docker rm -f $docker_name 2> /dev/null
 	  docker run -d --name $docker_name -p 9042:9042 -p 9160:9160 -d cassandra:2.1
-	  
+
 	  cql_setup=`cat ./bin/c8_driver_perf_setup.cql`
 	  echo "Setting up Cassandra: $cql_setup"
-	
+
 	  # Check if docker ready to accept cqlsh commands then remove sleep
 	  sleep 20
 	  docker exec -it $docker_name cqlsh -e "$cql_setup"
 	  echo "Command for cqlsh: docker exec -it $docker_name cqlsh"
   else
-      $CASSANDRA_HOME/bin/cqlsh -f /root/Documents/repo/c8driver_perf/bin/c8_driver_perf_setup.cql	  	  
-  fi	  
+      $CASSANDRA_HOME/bin/cqlsh -f /root/Documents/repo/c8driver_perf/bin/c8_driver_perf_setup.cql
+  fi
 
-  
-  
+
+
   mkdir -p data
 
   start_date=`date`
@@ -136,7 +136,7 @@ run() {
   if [ "$local" == false ] ; then
 	  docker stop $docker_name
 	  docker rm $docker_name
-  fi		  
+  fi
 }
 
 [ $# -eq 0 ] && usage "unspecified command" 1
@@ -144,7 +144,7 @@ run() {
 noofrecords_default=1000
 noofthreads_default=10
 debug_default=false
-
+local=${local:=${local_default}}
 
 noofrecords=${noofrecords:=${noofrecords_default}}
 noofthreads=${noofthreads:=${noofthreads_default}}

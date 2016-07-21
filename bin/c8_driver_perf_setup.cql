@@ -1,4 +1,4 @@
-drop KEYSPACE c8_perf IF EXISTS ;
+drop KEYSPACE  IF EXISTS c8_perf ;
 
 CREATE KEYSPACE c8_perf
   WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' :
@@ -6,30 +6,31 @@ CREATE KEYSPACE c8_perf
 
 use c8_perf ;
 
-drop table experiment IF EXISTS ;
+drop table IF EXISTS experiment;
 
 CREATE TABLE experiment (
   id uuid,
-  app_name text,
-  created timestamp,
-  creatorid text,
-  description text,
-  end_time timestamp,
-  is_personalized boolean,
-  is_rapid_experiment boolean,
+  ApplicationName text,
+  CreationTime timestamp,
+  CreatorID text,
+  Description text,
+  EndTime timestamp,
+  IsPersonalizationEnabled boolean,
+  IsRapidExperiment boolean,
   label text,
-  model_name text,
-  model_version text,
-  modified timestamp,
+  ModelName text,
+  ModelVersion text,
+  ModificationTime timestamp,
   rule text,
-  sample_percent double,
-  start_time timestamp,
+  RuleJson text,
+  SamplingPercent double,
+  startTime timestamp,
   state text,
-  user_cap int,
+  userCap int,
   PRIMARY KEY ((id))
 ) ;
 
-drop table event  IF EXISTS ; 
+drop table IF EXISTS event ;
 
 CREATE TABLE event (
 eventId uuid,
